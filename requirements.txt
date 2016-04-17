@@ -1,2 +1,2 @@
 python-binary-memcached
-mysql-connector-python
+http://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-2.0.4.tar.gz

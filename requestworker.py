@@ -21,7 +21,6 @@ if __name__ == '__main__':
         if workInProgress and workInProgress == 'True':
             destinationURL = mc.get('destinationURL')
             amountOfCalls = mc.get('amountOfCalls')
-
             timestamp = int(time.time())
 
             # database connection
@@ -44,6 +43,11 @@ if __name__ == '__main__':
             urls = [finalURL] * int(amountOfCalls)
             #print urls
 
+            # clean up memcached
+            mc.delete('workInProgress')
+            mc.delete('destinationURL')
+            mc.delete('amountOfCalls')
+
             pool = ThreadPool(config.threadPoolSize)
 
             # launch the call threads
@@ -54,11 +58,6 @@ if __name__ == '__main__':
             pool.join()
 
             #print results
-
-            # clean up memcached
-            mc.delete('workInProgress')
-            mc.delete('destinationURL')
-            mc.delete('amountOfCalls')
         else:
             # sleep until next round
             time.sleep(config.secondsToSleep)

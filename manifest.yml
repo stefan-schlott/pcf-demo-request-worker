@@ -1,0 +1,6 @@
+---
+applications:
+- name: pcf-demo-autoscale-request-worker
+  memory: 64MB
+  no-route: true
+  command: python requestworker.py

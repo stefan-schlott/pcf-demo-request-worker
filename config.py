@@ -10,7 +10,7 @@ except ImportError as e:
 
 secondsToSleep=10
 
-threadPoolSize=3
+threadPoolSize=12
 
 # SQL lines
 SQL_INSERT_NEW=("INSERT INTO request_recorder "
@@ -19,12 +19,20 @@ SQL_INSERT_NEW=("INSERT INTO request_recorder "
 
 # production
 if 'VCAP_SERVICES' in os.environ.keys():
+    # Memcached
     memcachedcloud_service = json.loads(os.environ['VCAP_SERVICES'])['memcachedcloud'][0]
     memcached_credentials = memcachedcloud_service['credentials']
 
-    #print "Memcached_Credentials: "+str(memcached_credentials)
+    memcachedURL = str(memcached_credentials['servers']).split(',')[0]
+    memcachedUsername = str(memcached_credentials['username'])
+    memcachedPassword = str(memcached_credentials['password'])
 
-    memcachedURL=str(memcached_credentials['servers']).split(',')[0]
-    memcachedUsername=str(memcached_credentials['username'])
-    memcachedPassword=str(memcached_credentials['password'])
+    # MySQL database (ClearDB)
+    cleardb_service = json.loads(os.environ['VCAP_SERVICES'])['cleardb'][0]
+    cleardb_credentials = cleardb_service['credentials']
+
+    database_host = str(cleardb_credentials['hostname'])
+    database_name = str(cleardb_credentials['name'])
+    database_username = str(cleardb_credentials['username'])
+    database_password = str(cleardb_credentials['password'])
 
